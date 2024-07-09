@@ -1,11 +1,17 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 class Date
 {
   public:
-    Date(int day, int month, int year);
-    ~Date();
+    Date(int day, int month, int year)
+    {
+        setDay(day);
+        setMonth(month);
+        setYear(year);
+    }
+    //~Date();
 
     /*Get function for accessing private member*/
     int getDay();
@@ -37,7 +43,7 @@ class Date
         if the date is 8/3/2018, then the day() function
         should return "Thursday"
     */
-    int day();
+    //string days();
 
     /* A Function to return the number of days in
         Current Month.
@@ -76,4 +82,104 @@ class Date
     int day;
     int month;
     int year;
+    bool isLeapYear(int year);
+    void addDays(int days) {
+        day += days;
+        while (day > numberOfDays()) {
+            day -= numberOfDays();
+            month++;
+            if (month > 12) {
+                month = 1;
+                year++;
+            }
+        }
+        while (day < 1) {
+            month--;
+            if (month < 1) {
+                month = 12;
+                year--;
+            }
+            day += numberOfDays();
+        }
+    }
+
+    int getFirstDayOfMonth() {
+        int m = month, y = year;
+        if (m < 3) {
+            m += 12;
+            y -= 1;
+        }
+        return (1 + 2*m + (3*(m+1))/5 + y + y/4 - y/100 + y/400) % 7;
+    }
 };
+
+int Date::getDay(){
+    return day;
+}
+int Date::getMonth(){
+    return month;
+}
+int Date::getYear(){
+    return year;
+}
+
+void Date::setDay(int day){
+    this->day = day;
+}
+void Date::setMonth(int month){
+    this->month = month;
+}
+void Date::setYear(int year){
+    this->year = year;
+}
+
+Date Date::DateAfter(int days){
+    Date newDate = *this;
+    newDate.addDays(days);
+    return newDate;
+}
+Date Date::DateBefore(int days){
+    Date newDate = *this;
+    newDate.addDays(-days);
+    return newDate;
+}
+
+//string Date::days(){
+
+//}
+
+bool Date::isLeapYear(int year) {
+    return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
+}
+
+int Date::numberOfDays(){
+    const int daysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    if (month == 2 && isLeapYear(year)) {
+        return 29;
+    }
+    return daysInMonth[month - 1];
+}
+
+void Date::printMonthCalendar(){
+    const char* monthNames[] = { "January", "February", "March", "April", "May", "June",
+                                    "July", "August", "September", "October", "November", "December" };
+
+    cout << "--------------" << monthNames[month - 1] << "--------------" << endl;
+    cout << "Sun  Mon  Tue  Wed  Thu  Fri  Sat" << endl;
+
+    int startDay = getFirstDayOfMonth();
+
+    // Print leading spaces
+    for (int i = 0; i < startDay; ++i) {
+        cout << "     ";
+    }
+
+    int daysInCurrentMonth = numberOfDays();
+    for (int i = 1; i <= daysInCurrentMonth; ++i) {
+        cout << (i < 10 ? " " : "") << i << "   ";
+        if ((i + startDay) % 7 == 0) {
+            cout << "\n";
+        }
+    }
+    cout << endl;
+}
