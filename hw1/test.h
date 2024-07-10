@@ -14,9 +14,9 @@ public:
     ~Date() {}
 
     /* Get function for accessing private member */
-    int getDay() { return day; }
-    int getMonth() { return month; }
-    int getYear() { return year; }
+    int getDay() const{ return day; }
+    int getMonth() const{ return month; }
+    int getYear() const{ return year; }
 
     /* Set function for updating private member */
     void setDay(int day) { this->day = day; }
@@ -101,15 +101,4 @@ private:
     int year;
 };
 
-int main() {
-    Date today(8, 3, 2018);
-    cout << "Today's date: " << today.getDay() << "/" << today.getMonth() << "/" << today.getYear() << "\n";
-    cout << "Day of the week: " << today.days() << "\n";
-    Date futureDate = today.DateAfter(3);
-    cout << "Date after 3 days: " << futureDate.getDay() << "/" << futureDate.getMonth() << "/" << futureDate.getYear() << "\n";
-    Date pastDate = today.DateBefore(3);
-    cout << "Date before 3 days: " << pastDate.getDay() << "/" << pastDate.getMonth() << "/" << pastDate.getYear() << "\n";
-    cout << "Days in current month: " << today.numberOfDays() << "\n";
-    today.printMonthCalendar();
-    return 0;
-}
+
