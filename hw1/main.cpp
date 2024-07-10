@@ -13,7 +13,7 @@ int main()
     date3.setYear(2015);
 
     cout << date1.numberOfDays() << endl;
-    //cout << date2.days() << endl;
+    cout << date2.days() << endl;
     date3.printMonthCalendar();
     
     return 0;
