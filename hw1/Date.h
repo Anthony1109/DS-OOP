@@ -7,11 +7,14 @@ class Date
   public:
     Date(int day, int month, int year)
     {
+        if (day < 1 || day > 31 || month < 1 || month > 12 || year < 0) {
+            throw std::invalid_argument("Invalid date values provided.");
+        }
         setDay(day);
         setMonth(month);
         setYear(year);
     }
-    //~Date();
+    ~Date(){}
 
     /*Get function for accessing private member*/
     int getDay();
@@ -43,7 +46,7 @@ class Date
         if the date is 8/3/2018, then the day() function
         should return "Thursday"
     */
-    //string days();
+    string days();
 
     /* A Function to return the number of days in
         Current Month.
@@ -82,7 +85,9 @@ class Date
     int day;
     int month;
     int year;
-    bool isLeapYear(int year);
+    bool isLeapYear(int year){
+        return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
+    }
     void addDays(int days) {
         day += days;
         while (day > numberOfDays()) {
@@ -101,6 +106,15 @@ class Date
             }
             day += numberOfDays();
         }
+    }
+
+    int dayOfWeek() {
+        int d = day, m = month, y = year;
+        if (m < 3) {
+            m += 12;
+            y -= 1;
+        }
+        return (d + 2*m + (3*(m+1))/5 + y + y/4 - y/100 + y/400) % 7;
     }
 
     int getFirstDayOfMonth() {
@@ -124,12 +138,21 @@ int Date::getYear(){
 }
 
 void Date::setDay(int day){
+    if (day < 1 || day > 31) {
+        throw std::invalid_argument("Invalid day value provided.");
+    }
     this->day = day;
 }
 void Date::setMonth(int month){
+    if (month < 1 || month > 12) {
+        throw std::invalid_argument("Invalid month value provided.");
+    }
     this->month = month;
 }
 void Date::setYear(int year){
+    if (year < 0) {
+        throw std::invalid_argument("Invalid year value provided.");
+    }
     this->year = year;
 }
 
@@ -144,12 +167,9 @@ Date Date::DateBefore(int days){
     return newDate;
 }
 
-//string Date::days(){
-
-//}
-
-bool Date::isLeapYear(int year) {
-    return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
+string Date::days(){
+    const char* daysOfWeek[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    return daysOfWeek[dayOfWeek()];
 }
 
 int Date::numberOfDays(){

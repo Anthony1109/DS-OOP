@@ -14,9 +14,9 @@ public:
     ~Date() {}
 
     /* Get function for accessing private member */
-    int getDay() const{ return day; }
-    int getMonth() const{ return month; }
-    int getYear() const{ return year; }
+    int getDay() { return day; }
+    int getMonth() { return month; }
+    int getYear() { return year; }
 
     /* Set function for updating private member */
     void setDay(int day) { this->day = day; }
