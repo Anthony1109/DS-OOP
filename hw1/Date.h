@@ -7,9 +7,6 @@ class Date
   public:
     Date(int day, int month, int year)
     {
-        if (day < 1 || day > 31 || month < 1 || month > 12 || year < 0) {
-            throw std::invalid_argument("Invalid date values provided.");
-        }
         setDay(day);
         setMonth(month);
         setYear(year);
@@ -138,21 +135,15 @@ int Date::getYear(){
 }
 
 void Date::setDay(int day){
-    if (day < 1 || day > 31) {
-        throw std::invalid_argument("Invalid day value provided.");
-    }
+    day = (day < 1 || day > 31) ? 1 : day;
     this->day = day;
 }
 void Date::setMonth(int month){
-    if (month < 1 || month > 12) {
-        throw std::invalid_argument("Invalid month value provided.");
-    }
+    month = (month < 1 || month > 12) ? 1 : month;
     this->month = month;
 }
 void Date::setYear(int year){
-    if (year < 0) {
-        throw std::invalid_argument("Invalid year value provided.");
-    }
+    year = (year < 0) ? 0 : year;
     this->year = year;
 }
 
