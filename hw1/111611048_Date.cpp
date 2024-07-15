@@ -31,7 +31,7 @@ void Date::setMonth(int month){
     this->month = month;
 }
 void Date::setYear(int year){
-    year = (year < 0) ? 0 : year;
+    year = (year < 0) ? 1900 : year;
     this->year = year;
 }
 
