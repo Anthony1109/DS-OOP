@@ -37,22 +37,13 @@ matrix33 operator-(const matrix33& m){
 }
 
 matrix33 matrix33::operator*(const matrix33& m){
-    matrix33 result;  
+    matrix33 result;     
     for(int i = 0; i < 3; i++){
         for(int j = 0; j < 3; j++){
-            result.v1[i] += v1[j]*m[j][i];
-        }
-    }
-    for(int i = 0; i < 3; i++){
-        for(int j = 0; j < 3; j++){
-            result.v2[i] += v2[j]*m[j][i];
-        }
-    }
-    for(int i = 0; i < 3; i++){
-        for(int j = 0; j < 3; j++){
-            result.v3[i] += v3[j]*m[j][i];
-        }
-    }
+            result[i][j] = m[i][0] * v1[j] + m[i][1] * v2[j] + m[i][2] * v3[j];
+        }    
+    }   
+    
     return result;
 }
 
