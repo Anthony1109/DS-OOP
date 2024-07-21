@@ -4,9 +4,9 @@
 
 using namespace std;
 
-matrix33::matrix33(vector3 v1, vector3 v2, vector3 v3) : col1(v1[0], v2[0], v3[0]), col2(v1[1], v2[1], v3[1]), col3(v1[2], v2[2], v3[2]) {}
+matrix33::matrix33(vector3 v1, vector3 v2, vector3 v3) :v1(v1), v2(v2), v3(v3) {}
 
-matrix33::matrix33(const matrix33& m): col1(m.col1), col2(m.col2), col3(m.col3) {}
+matrix33::matrix33(const matrix33& m): v1(m.v1), v2(m.v2), v3(m.v3) {}
 
 matrix33 matrix33::operator+(const matrix33& m){
     return matrix33(v1 + m.v1, v2 + m.v2, v3 + m.v3);
@@ -36,14 +36,24 @@ matrix33 operator-(const matrix33& m){
     return matrix33(-m.v1, -m.v2, -m.v3);
 }
 
-matrix33 matrix33::operator*(const matrix33& m){ 
-    matrix33 result;
-        for (int i = 0; i < 3; ++i) {
-            result.v1[i] = v1[0] * m.v1[i] + v1[1] * m.v2[i] + v1[2] * m.v3[i];
-            result.v2[i] = v2[0] * m.v1[i] + v2[1] * m.v2[i] + v2[2] * m.v3[i];
-            result.v3[i] = v3[0] * m.v1[i] + v3[1] * m.v2[i] + v3[2] * m.v3[i];
+matrix33 matrix33::operator*(const matrix33& m){
+    matrix33 result;  
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            result.v1[i] += v1[j]*m[j][i];
         }
-        return result;
+    }
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            result.v2[i] += v2[j]*m[j][i];
+        }
+    }
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            result.v3[i] += v3[j]*m[j][i];
+        }
+    }
+    return result;
 }
 
 bool matrix33::operator==(const matrix33& m){
@@ -83,10 +93,9 @@ matrix33& matrix33::operator/=(double k){
 }
 
 void matrix33::printMatrix(){
-    col1.printVector3();
-    col2.printVector3();
-    col3.printVector3();
-    cout << endl;
+    cout << v1[0] << " " << v2[0] << " " << v3[0] << endl;
+    cout << v1[1] << " " << v2[1] << " " << v3[1] << endl;
+    cout << v1[2] << " " << v2[2] << " " << v3[2] << endl;
 }
 
 matrix33 matrix33::invert(){
@@ -94,9 +103,9 @@ matrix33 matrix33::invert(){
     if(det == 0){
         cout << "Matrix is not invertible" << endl;
     }
-    vector3 row1 = {v2[1]*v3[2] - v2[2]*v3[1], v2[2]*v3[0] - v2[0]*v3[2], v2[0]*v3[1] - v2[1]*v3[0]};
-    vector3 row2 = {v3[1]*v1[2] - v3[2]*v1[1], v3[2]*v1[0] - v3[0]*v1[2], v3[0]*v1[1] - v3[1]*v1[0]};
-    vector3 row3 = {v1[1]*v2[2] - v1[2]*v2[1], v1[2]*v2[0] - v1[0]*v2[2], v1[0]*v2[1] - v1[1]*v2[0]};
+    vector3 row1 = {v2[1]*v3[2] - v2[2]*v3[1], v1[2]*v3[1] - v1[1]*v3[2], v1[1]*v2[2] - v1[2]*v2[1]};
+    vector3 row2 = {v2[2]*v3[0] - v2[0]*v3[2], v1[0]*v3[2] - v1[2]*v3[0], v1[2]*v2[0] - v1[0]*v2[2]};
+    vector3 row3 = {v2[0]*v3[1] - v2[1]*v3[0], v1[1]*v3[0] - v1[0]*v3[1], v1[0]*v2[1] - v1[1]*v2[0]};
     matrix33 adj = matrix33(row1, row2, row3);
     return  adj / det;
 }
@@ -116,20 +125,20 @@ int matrix33::determinant(){
 
 vector3& matrix33::operator[](int index){
     if(index == 0)
-        return col1;
+        return v1;
     else if(index == 1)
-        return col2;
+        return v2;
     else
-        return col3;
+        return v3;
 }
 
 const vector3& matrix33::operator[](int index) const{
     if(index == 0)
-        return col1;
+        return v1;
     else if(index == 1)
-        return col2;
+        return v2;
     else
-        return col3;
+        return v3;
 }
 
 
