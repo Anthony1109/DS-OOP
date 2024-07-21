@@ -1,6 +1,7 @@
 #include <iostream>
 #include "111611048_matrix33.h"
 #include <cmath>
+#include <iomanip>
 
 using namespace std;
 
@@ -84,9 +85,9 @@ matrix33& matrix33::operator/=(double k){
 }
 
 void matrix33::printMatrix(){
-    cout << v1[0] << " " << v2[0] << " " << v3[0] << endl;
-    cout << v1[1] << " " << v2[1] << " " << v3[1] << endl;
-    cout << v1[2] << " " << v2[2] << " " << v3[2] << endl;
+    cout << setw(4) << v1[0] << " " << setw(4) << v2[0] << " " << setw(4) << v3[0] << endl;
+    cout << setw(4) << v1[1] << " " << setw(4) << v2[1] << " " << setw(4) << v3[1] << endl;
+    cout << setw(4) << v1[2] << " " << setw(4) << v2[2] << " " << setw(4) << v3[2] << endl;
 }
 
 matrix33 matrix33::invert(){
