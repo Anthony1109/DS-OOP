@@ -55,9 +55,7 @@ private:
 // implement Link_List's methods
 
 template <class T>
-Link_List<T>::Link_List()
-{
-}
+Link_List<T>::Link_List(){}
 
 template <class T>
 Link_List<T>::Link_List(Link_List &other): list_(other.list_){}
